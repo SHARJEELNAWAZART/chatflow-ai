@@ -1,0 +1,1 @@
+export default function Contact(){return <main className="container-shell min-h-[55vh] py-20"><h1 className="text-4xl font-bold">Contact us</h1><p className="mt-4 text-slate-600">Support request submission will be available after backend setup. For now, configure a contact email in the deployment environment.</p></main>}

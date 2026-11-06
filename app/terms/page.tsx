@@ -1,0 +1,1 @@
+export default function Terms(){return <main className="container-shell min-h-[55vh] py-20"><h1 className="text-4xl font-bold">Terms and conditions</h1><p className="mt-5 max-w-3xl text-slate-600">Draft placeholder. Have qualified counsel prepare terms appropriate to your service, jurisdiction, billing, and data-processing practices before launch.</p></main>}

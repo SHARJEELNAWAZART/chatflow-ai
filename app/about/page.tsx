@@ -1,0 +1,1 @@
+export default function InfoPage(){return <main className="container-shell min-h-[55vh] py-20"><h1 className="text-4xl font-bold">About ChatFlow AI</h1><p className="mt-5 max-w-2xl leading-7 text-slate-600">ChatFlow AI is being built to help teams make customer support more responsive with business-grounded AI assistants. This project is in early development.</p></main>}
