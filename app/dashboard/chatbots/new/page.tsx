@@ -1,44 +1,4 @@
-export default function NewChatbotPage() {
-  return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h1 className="text-3xl font-bold text-slate-900">Create Chatbot</h1>
-      <p className="mt-1 text-sm text-slate-500">Set up a new AI support agent for your business.</p>
-
-      <form className="mt-8 space-y-6">
-        <div className="grid gap-5 md:grid-cols-2">
-          <label className="block text-sm font-medium text-slate-700">
-            Chatbot name
-            <input className="mt-2 w-full" placeholder="Crest Support" />
-          </label>
-          <label className="block text-sm font-medium text-slate-700">
-            Business name
-            <input className="mt-2 w-full" placeholder="Crest & Co." />
-          </label>
-          <label className="block text-sm font-medium text-slate-700 md:col-span-2">
-            Business description
-            <textarea className="mt-2 min-h-[110px] w-full" placeholder="Describe your business and support coverage." />
-          </label>
-          <label className="block text-sm font-medium text-slate-700">
-            Website
-            <input className="mt-2 w-full" placeholder="https://example.com" />
-          </label>
-          <label className="block text-sm font-medium text-slate-700">
-            Business category
-            <select className="mt-2 w-full">
-              <option>Retail</option>
-              <option>Travel</option>
-              <option>Healthcare</option>
-              <option>Education</option>
-              <option>Other</option>
-            </select>
-          </label>
-        </div>
-
-        <div className="flex justify-end gap-3">
-          <button type="button" className="btn-secondary">Save draft</button>
-          <button type="button" className="btn-primary">Continue</button>
-        </div>
-      </form>
-    </div>
-  );
-}
+'use client';
+import { FormEvent,useState } from 'react';
+import { useRouter } from 'next/navigation';
+export default function NewChatbotPage(){const router=useRouter();const [error,setError]=useState('');const [busy,setBusy]=useState(false);async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setError('');const form=new FormData(e.currentTarget);const data=Object.fromEntries(form.entries());const r=await fetch('/api/chatbots',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const result=await r.json();if(!r.ok){setError(result.error||'Could not create chatbot.');setBusy(false);return;}router.push('/dashboard/chatbots');router.refresh();}return <section className="rounded-3xl border bg-white p-6"><h1 className="text-3xl font-bold">Create chatbot</h1><p className="mt-2 text-sm text-slate-500">Tell your assistant about your business. Add knowledge before activating it.</p><form onSubmit={submit} className="mt-7 grid gap-5 md:grid-cols-2"><label className="text-sm font-medium">Chatbot name<input required name="name" maxLength={80} className="mt-2 w-full" placeholder="Support assistant"/></label><label className="text-sm font-medium">Business name<input name="business_name" maxLength={120} className="mt-2 w-full" placeholder="Your business"/></label><label className="text-sm font-medium md:col-span-2">Description<textarea name="description" maxLength={2000} className="mt-2 min-h-28 w-full" placeholder="What does your business do?"/></label><label className="text-sm font-medium">Welcome message<input name="welcome_message" maxLength={250} className="mt-2 w-full" defaultValue="Hi! How can I help you today?"/></label><label className="text-sm font-medium">Website origin (optional)<input name="origin" type="url" className="mt-2 w-full" placeholder="https://your-site.com"/></label>{error&&<p role="alert" className="text-sm text-red-600 md:col-span-2">{error}</p>}<div className="flex justify-end md:col-span-2"><button disabled={busy} className="btn-primary">{busy?'Saving…':'Create chatbot'}</button></div></form></section>}
