@@ -7,8 +7,6 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/dashboard")) {
     const { createServerClient } = await import("@supabase/ssr");
 
-    const response = NextResponse.next();
-
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -17,11 +15,7 @@ export async function middleware(request: NextRequest) {
           getAll() {
             return request.cookies.getAll();
           },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              response.cookies.set(name, value, options);
-            });
-          },
+          setAll() {},
         },
       }
     );
@@ -33,8 +27,6 @@ export async function middleware(request: NextRequest) {
     if (!user) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
-
-    return response;
   }
 
   return NextResponse.next();
